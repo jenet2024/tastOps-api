@@ -1,0 +1,34 @@
+quality:
+  name: Analyse qualite
+  runs-on: ubuntu-latest
+  needs: build-and-test
+
+  steps:
+    - name: Recuperer le code
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+
+    - name: Installer Java 25 (Temurin)
+      uses: actions/setup-java@v5
+      with:
+        java-version: '25'
+        distribution: 'temurin'
+        cache: 'maven'
+
+    - name: Mettre en cache l'analyse Sonar
+      uses: actions/cache@v4
+      with:
+        path: ~/.sonar/cache
+        key: ${{ runner.os }}-sonar
+        restore-keys: ${{ runner.os }}-sonar
+
+    - name: Analyser avec SonarQube Cloud
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+      run: >
+        mvn verify sonar:sonar
+        -Dsonar.projectKey=TON_PROJECT_KEY
+        -Dsonar.organization=TON_ORGANIZATION
+        -Dsonar.host.url=https://sonarcloud.io

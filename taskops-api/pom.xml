@@ -21,6 +21,17 @@
     <description>API REST de gestion de taches - projet fil rouge DevOps B3</description>
 
     <properties>
+
+                     <!-- Coordonnees SonarQube Cloud : remplacez par VOS valeurs -->
+        <sonar.organization>jenet2024</sonar.organization>
+        <sonar.projectKey>jenet2024_taskops-api</sonar.projectKey>
+        <sonar.host.url>https://sonarcloud.io</sonar.host.url>
+        <!-- Indique a Sonar ou trouver le rapport de couverture produit par JaCoCo -->
+        <sonar.coverage.jacoco.xmlReportPaths>
+        ${project.build.directory}/site/jacoco/jacoco.xml
+        </sonar.coverage.jacoco.xmlReportPaths>
+
+
         <!-- Version du langage utilisée pour compiler ET exécuter -->
         <java.version>25</java.version>
         <!-- Encodage explicite : evite les surprises entre Windows, macOS et la CI Linux -->
@@ -65,6 +76,10 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
+
+
+       
+
 
     <build>
         <plugins>
